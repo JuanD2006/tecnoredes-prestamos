@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: tecnoredes-api
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20.19.0
+      - key: MONGO_URI
+        sync: false
