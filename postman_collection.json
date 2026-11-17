@@ -1,0 +1,122 @@
+{
+  "info": {
+    "name": "TecnoRedes - API Prestamo de Equipos",
+    "description": "Coleccion para probar la Etapa 3 del proyecto de Dispositivos Moviles",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:3000" },
+    { "key": "equipo_id", "value": "" },
+    { "key": "usuario_id", "value": "" },
+    { "key": "prestamo_id", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Usuarios",
+      "item": [
+        {
+          "name": "Crear usuario",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Juan Perez\",\n  \"rol\": \"instructor\",\n  \"contacto\": \"juan@tecnoredes.co\"\n}"
+            },
+            "url": "{{base_url}}/api/usuarios"
+          }
+        },
+        {
+          "name": "Listar usuarios",
+          "request": { "method": "GET", "url": "{{base_url}}/api/usuarios" }
+        }
+      ]
+    },
+    {
+      "name": "Equipos",
+      "item": [
+        {
+          "name": "Crear equipo",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Router TP-Link AC1200\",\n  \"tipo\": \"Red\",\n  \"descripcion\": \"Router para practicas de laboratorio\"\n}"
+            },
+            "url": "{{base_url}}/api/equipos"
+          }
+        },
+        {
+          "name": "Listar equipos",
+          "request": { "method": "GET", "url": "{{base_url}}/api/equipos" }
+        },
+        {
+          "name": "Obtener equipo por id",
+          "request": { "method": "GET", "url": "{{base_url}}/api/equipos/{{equipo_id}}" }
+        },
+        {
+          "name": "Actualizar equipo",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Router TP-Link AC1200\",\n  \"tipo\": \"Red\",\n  \"descripcion\": \"Actualizado\",\n  \"estado\": \"disponible\"\n}"
+            },
+            "url": "{{base_url}}/api/equipos/{{equipo_id}}"
+          }
+        },
+        {
+          "name": "Eliminar equipo",
+          "request": { "method": "DELETE", "url": "{{base_url}}/api/equipos/{{equipo_id}}" }
+        }
+      ]
+    },
+    {
+      "name": "Prestamos",
+      "item": [
+        {
+          "name": "Crear prestamo",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"equipo_id\": \"{{equipo_id}}\",\n  \"usuario_id\": \"{{usuario_id}}\",\n  \"fecha_inicio\": \"2026-10-20T08:00:00.000Z\",\n  \"fecha_fin_prevista\": \"2026-10-20T10:00:00.000Z\"\n}"
+            },
+            "url": "{{base_url}}/api/prestamos"
+          }
+        },
+        {
+          "name": "Crear prestamo con cruce (debe dar 409)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"equipo_id\": \"{{equipo_id}}\",\n  \"usuario_id\": \"{{usuario_id}}\",\n  \"fecha_inicio\": \"2026-10-20T09:00:00.000Z\",\n  \"fecha_fin_prevista\": \"2026-10-20T11:00:00.000Z\"\n}"
+            },
+            "url": "{{base_url}}/api/prestamos"
+          }
+        },
+        {
+          "name": "Listar prestamos activos",
+          "request": { "method": "GET", "url": "{{base_url}}/api/prestamos?estado=activo" }
+        },
+        {
+          "name": "Devolver prestamo",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fecha_devolucion_real\": \"2026-10-20T10:05:00.000Z\"\n}"
+            },
+            "url": "{{base_url}}/api/prestamos/{{prestamo_id}}/devolver"
+          }
+        }
+      ]
+    }
+  ]
+}
